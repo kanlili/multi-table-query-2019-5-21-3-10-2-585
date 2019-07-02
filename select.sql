@@ -4,7 +4,10 @@ select studentId from student_course
     studentId in(select studentId from student_course
                    where courseId=2);
 # 2.查询同时存在1课程和2课程的情况
-
+select studentId from student_course
+  where courseId=1 and
+    studentId in(select studentId from student_course
+                   where courseId=2);
 # 3.查询平均成绩大于等于60分的同学的学生编号和学生姓名和平均成绩
 select id,name,cast(avg(score)as decimal(18,1)) avgscore
       from student,student_course sc
