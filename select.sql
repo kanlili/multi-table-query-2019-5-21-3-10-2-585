@@ -12,9 +12,17 @@ select id,name,cast(avg(score)as decimal(18,1)) avgscore
                 group by id,name
                       having avgscore>=60;
 # 4.查询在student_course表中不存在成绩的学生信息的SQL语句
-
+select id,name,
+     from student left join student_course sc
+          where student.id=sc.studentId
+                group by id,name
+                    having ifnull(cast(avg(score)as decimal(18,1)),0)=0.0;                     
 # 5.查询所有有成绩的SQL
-
+select id,name,
+     from student left join student_course sc
+          where student.id=sc.studentId
+                group by id,name
+                    having ifnull(cast(avg(score)as decimal(18,1)),0)>0.0; 
 # 6.查询学过编号为1并且也学过编号为2的课程的同学的信息
 select *
      from student,student_course sc1,student_course sc2
@@ -33,3 +41,9 @@ select id,name,cast(avg(score)as decimal(18,1)) avgscore
                    group by id,name
                       order by avgscore desc,id asc;
 # 9.查询课程名称为"数学"，且分数低于60的学生姓名和分数
+select stu.name,score
+   from student stu,course cou,student_course sc
+       where  stu.id=sc.studentId and   
+              sc.courseId=cou.id  and
+              cou.name='数学' and
+              score<60;                           
